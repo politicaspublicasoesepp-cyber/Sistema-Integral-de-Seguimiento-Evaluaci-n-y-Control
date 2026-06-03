@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SISEC - MPPEU | Sistema Integral de Seguimiento, Evaluación y Control</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Inter', 'Helvetica Neue', sans-serif;
+            background: #f0f4f8;
+            color: #1e293b;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Encabezado principal */
+        .header {
+            background: linear-gradient(135deg, #0f2b3d, #1a4a6f);
+            color: white;
+            padding: 2rem 2rem;
+            border-radius: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+        }
+
+        .badge-mppeu {
+            background: #ffb347;
+            color: #1e293b;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        /* índice / navegación */
+        .indice {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+        }
+
+        .indice h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #0f2b3d;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .indice-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .indice-btn {
+            background: #f1f5f9;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #1e4a6e;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .indice-btn:hover {
+            background: #1e4a6e;
+            color: white;
+            border-color: #1e4a6e;
+        }
+
+        /* Tarjetas de cada ente */
+        .ente-card {
+            background: white;
+            border-radius: 1.5rem;
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08);
+            transition: transform 0.1s ease;
+            border: 1px solid #e9edf2;
+        }
+
+        .ente-header {
+            background: #f8fafc;
+            padding: 1.2rem 2rem;
+            border-bottom: 3px solid #2c7da0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .ente-titulo {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #0c4a6e;
+        }
+
+        .ente-sub {
+            font-size: 0.85rem;
+            background: #e6f0f9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            color: #155e75;
+            font-weight: 500;
+        }
+
+        .ente-body {
+            padding: 1.8rem 2rem;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-box {
+            background: #fefce8;
+            border-left: 5px solid #eab308;
+            padding: 1rem 1.2rem;
+            border-radius: 1rem;
+        }
+
+        .nudo-critico {
+            background: #fff0f0;
+            border-left: 5px solid #dc2626;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+            font-weight: 500;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 0.7rem 0.8rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: #eef2ff;
+            font-weight: 600;
+        }
+
+        .semafono {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .verde { background-color: #22c55e; box-shadow: 0 0 2px #15803d; }
+        .amarillo { background-color: #eab308; }
+        .rojo { background-color: #ef4444; }
+
+        .meta-text {
+            font-size: 0.75rem;
+            color: #475569;
+        }
+
+        .badge-equipo {
+            background: #e6f7ec;
+            color: #166534;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin: 0.2rem 0.2rem;
+        }
+
+        hr {
+            margin: 1.8rem 0;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, #cbd5e1, transparent);
+        }
+
+        .resultados {
+            background: #eef2ff;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            margin-top: 1.2rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #475569;
+            font-size: 0.8rem;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 2rem;
+        }
+
+        @media (max-width: 700px) {
+            .ente-body {
+                padding: 1.2rem;
+            }
+            .ente-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📊 SISEC · Sistema Integral de Seguimiento, Evaluación y Control</h1>
+        <p>Monitoreo estratégico de Entes y Órganos Adscritos al <strong>Ministerio del Poder Popular para la Educación Universitaria (MPPEU)</strong><br> Base documental: Memorias 2025 · Proyección 2026</p>
+        <div class="badge-mppeu">📌 Coordinación General · Transparencia · Gestión por Resultados</div>
+    </div>
+
+    <!-- Índice rápido -->
+    <div class="indice">
+        <h3>📑 Navegación por ente adscrito</h3>
+        <div class="indice-grid">
+            <a href="#cnu" class="indice-btn">1. CNU</a>
+            <a href="#fms" class="indice-btn">2. Misión Sucre</a>
+            <a href="#elam" class="indice-btn">3. ELAM (Allende)</a>
+            <a href="#fundayacucho" class="indice-btn">4. FUNDAYACUCHO</a>
+            <a href="#fuvidit" class="indice-btn">5. FUVIDIT</a>
+            <a href="#fames" class="indice-btn">6. FAMES</a>
+            <a href="#cim" class="indice-btn">7. CIM</a>
+        </div>
+    </div>
+
+    <!-- ======================= 1. CNU ======================= -->
+    <div id="cnu" class="ente-card">
+        <div class="ente-header">
+            <span class="ente-titulo">🎓 1. Consejo Nacional de Universidades (CNU)</span>
+            <span class="ente-sub">Servicio Autónomo adscrito al MPPEU</span>
+        </div>
+        <div class="ente-body">
+            <div class="grid-2col">
+                <div><strong>🎯 Misión:</strong> Asesorar técnicamente en políticas nacionales y planificación del subsistema de educación universitaria, garantizando calidad, equidad y pertinencia.</div>
+                <div><strong>👁️ Visión:</strong> Ser institución referente de asesoría técnica orientada a las necesidades de la sociedad venezolana.</div>
+                <div><strong>🏆 Logros 2025:</strong> 249.461 cupos SNI · 36 nuevas carreras · 30 postgrados · CIU con 226.297 estudiantes.</div>
+                <div><strong>⚠️ Obstáculos:</strong> Obsolescencia tecnológica, falta de equipos, bajos desembolsos, deserción académica/laboral.</div>
+            </div>
+            <div class="nudo-critico">
+                🔴 <strong>Nudo crítico:</strong> Obsolescencia tecnológica generalizada + falta de personal capacitado y deserción de talento → limita severamente el rol asesor y procesamiento de datos estadísticos.
+            </div>
+            <h4>📈 Indicadores clave SISEC · CNU</h4>
+            <table>
+                <thead><tr><th>Dimensión</th><th>Indicador</th><th>Meta</th><th>Frecuencia</th><th>Estado</th></tr></thead>
+                <tbody>
+                    <tr><td>Plataforma tecnológica</td><td>% equipos con obsolescencia funcional</td><td>&lt;30%</td><td>Trimestral</td><td><span class="semafono rojo"></span> 🔴 crítico</td></tr>
+                    <tr><td>Conectividad</td><td>Disponibilidad internet estable (h/día)</td><td>≥20 h/día</td><td>Mensual</td><td><span class="semafono amarillo"></span> 🟡 parcial</td></tr>
+                    <tr><td>Talento humano</td><td>% cargos técnicos clave vacantes o sin capacitación</td><td>&lt;10%</td><td>Trimestral</td><td><span class="semafono rojo"></span> 🔴 déficit</td></tr>
+                    <tr><td>Oportunidad SNI</td><td>Tiempo registro → asignación</td><td>≤30 días</td><td>Anual</td><td><span class="semafono amarillo"></span> 🟡</td></tr>
+                    <tr><td>Satisfacción</td><td>Índice de satisfacción con asesoría</td><td>≥4.0/5</td><td>Semestral</td><td><span class="semafono rojo"></span> 🔴 mejorable</td></tr>
+                    <tr><td>Ejecución financiera</td><td>% ejecución proyectos</td><td>≥85%</td><td>Trimestral</td><td><span class="semafono rojo"></span> 🔴 0% histórico</td></tr>
+                </tbody>
+            </table>
+            <div class="grid-2col">
+                <div><strong>👥 Equipo multidisciplinario:</strong> <span class="badge-equipo">Coordinador General</span> <span class="badge-equipo">Analista IT</span> <span class="badge-equipo">Talento Humano</span> <span class="badge-equipo">Evaluador Procesos</span> <span class="badge-equipo">Auditor Satisfacción</span> <span class="badge-equipo">Gestor Datos</span> <span class="badge-equipo">Enlace MPPEU</span></div>
+                <div><strong>📅 Plan de mejora 12m:</strong> Renovación tecnológica (servidores/PC) · Estabilización de talento · Enlace dedicado CANTV · Simplificación SNI.</div>
+            </div>
+            <div class="resultados">
+                ✅ <strong>Resultados esperados (12 meses):</strong> Obsolescencia IT &lt;30% · 80% personal en formación · SNI ≤30 días · Satisfacción ≥4.0 · ≥12 informes/año · Ejecución ≥85%.
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= 2. Fundación Misión Sucre ======================= -->
+    <div id="fms" class="ente-card">
+        <div class="ente-header">
+            <span class="ente-titulo">📚 2. Fundación Misión Sucre (FMS)</span>
+            <span class="ente-sub">Servicio Autónomo adscrito al MPPEU</span>
+        </div>
+        <div class="ente-body">
+            <div class="grid-2col">
+                <div><strong>🎯 Misión:</strong> Desarrollar planes para inserción y prosecución de bachilleres en educación universitaria, articulada con necesidades sociales.</div>
+                <div><strong>🏆 Logros:</strong> 29.429 inscripciones · 80.210 triunfadores activos · 9.033 facilitadores · 760 aldeas · 148 espacios "Cada fábrica una universidad".</div>
+                <div><strong>⚠️ Obstáculos:</strong> Estipendio bajo (Bs 130) a facilitadores, falta de mantenimiento en aldeas, fallas IT/eléctricas, cobro de aranceles.</div>
+            </div>
+            <div class="nudo-critico">
+                🧑‍🏫 <strong>Nudo crítico:</strong> Precariedad estructural de facilitadores (bajos ingresos, sin estabilidad, sin formación pedagógica). Afecta calidad educativa y sostenibilidad del modelo territorial.
+            </div>
+            <h4>📊 Indicadores Misión Sucre</h4>
+            <table>
+                <thead><tr><th>Indicador</th><th>Meta</th><th>Frecuencia</th><th>Semáforo actual</th></tr></thead>
+                <tbody>
+                    <tr><td>% facilitadores con formación pedagógica pertinente</td><td>≥70%</td><td>Semestral</td><td><span class="semafono rojo"></span> 🔴 &lt;20%</td></tr>
+                    <tr><td>% facilitadores en nómina estatal (gobernación/alcaldía)</td><td>≥60%</td><td>Trimestral</td><td><span class="semafono rojo"></span> 🔴 bajo</td></tr>
+                    <tr><td>Tasa de prosecución anual</td><td>≥80%</td><td>Mensual</td><td><span class="semafono amarillo"></span> 🟡 68%</td></tr>
+                    <tr><td>N° de egresados anuales</td><td>≥7.000</td><td>Anual</td><td><span class="semafono verde"></span> 🟢 7.067</td></tr>
+                    <tr><td>% aldeas con mantenimiento preventivo anual</td><td>≥80%</td><td>Semestral</td><td><span class="semafono rojo"></span> 🔴 déficit</td></tr>
+                </tbody>
+            </table>
+            <div><strong>📌 Plan de mejora:</strong> Adscripción institucional con gobernaciones · Diplomado 80h para facilitadores · Aumento estipendio mínimo + bono · Partida para 200 aldeas prioritarias.</div>
+            <div class="resultados">✅ Esperado: 70% facilitadores formados · 60% en nómina estatal · prosecución ≥80% · 7.000+ egresados · 800 aldeas activas.</div>
+        </div>
+    </div>
+
+    <!-- ======================= 3. ELAM Dr. Salvador Allende ======================= -->
+    <div id="elam" class="ente-card">
+        <div class="ente-header">
+            <span class="ente-titulo">🌎 3. Fundación Dr. Salvador Allende (ELAM)</span>
+            <span class="ente-sub">Residencias y formación internacional MIC</span>
+        </div>
+        <div class="ente-body">
+            <div class="grid-2col">
+                <div><strong>Misión:</strong> Residencia y formación integral a becarios internacionales (medicina, salud) de América Latina, Caribe, África y Asia.</div>
+                <div><strong>Logros:</strong> +20% matrícula (476 becarios) · 82 médicos graduados · proyectos comunitarios.</div>
+                <div><strong>Obstáculos:</strong> Deterioro infraestructura, déficit RRHH calificado, intermitencia servicios básicos.</div>
+            </div>
+            <div class="nudo-critico">🤝 <strong>Nudo crítico:</strong> Debilidad en gestión de cooperación internacional y medición del "mutuo beneficio" de acuerdos. Limitado seguimiento a inserción e investigación nacional.</div>
+            <h4>Indicadores de integración y mutuo beneficio</h4>
+            <table>
+                <tr><th>Indicador</th><th>Meta</th><th>Estado</th></tr>
+                <tr><td>% convenios con cláusulas de contrapartida (becas a venezolanos)</td><td>100%</td><td><span class="semafono rojo"></span> parcial</td></tr>
+                <tr><td>% estudiantes en ≥2 actividades comunitarias/año</td><td>≥70%</td><td><span class="semafono amarillo"></span> 45%</td></tr>
+                <tr><td>% graduados que permanecen trabajando/estudiando en Venezuela</td><td>≥30%</td><td><span class="semafono rojo"></span> sin dato</td></tr>
+                <tr><td>Ejecución mantenimiento infraestructura</td><td>≥85%</td><td><span class="semafono rojo"></span> limitado</td></tr>
+            </table>
+            <div><strong>Plan de mejora:</strong> Auditoría de convenios con cláusulas de contrapartida · programa de integración comunitaria · sistema de seguimiento de egresados.</div>
+            <div class="resultados">🎯 100% convenios equilibrados · 70% en actividades comunitarias · índice mutuo beneficio ≥4.0 · ejecución infraestructura ≥85%.</div>
+        </div>
+    </div>
+
+    <!-- ======================= 4. FUNDAYACUCHO ======================= -->
+    <div id="fundayacucho" class="ente-card">
+        <div class="ente-header">
+            <span class="ente-titulo">🎓 4. Fundación Gran Mariscal de Ayacucho (FUNDAYACUCHO)</span>
+            <span class="ente-sub">Ente adscrito · Becas nacionales e internacionales</span>
+        </div>
+        <div class="ente-body">
+            <div><strong>Logros:</strong> 15.590 becas nacionales · 139 becarios en exterior · 13 internacionales recibidos.</div>
+            <div class="nudo-critico">💰 <strong>Nudo crítico:</strong> Subestimación presupuestaria + 0% ejecución en proyectos por falta de desembolsos + grave debilidad en sistematización de información.</div>
+            <table>
+                <tr><th>Indicador</th><th>Meta</th><th>Frecuencia</th></tr>
+                <tr><td>N° becarios nacionales activos</td><td>≥15.000</td><td>Trimestral</td></tr>
+                <tr><td>% becas en áreas estratégicas prioritarias</td><td>≥70%</td><td>Semestral</td></tr>
+                <tr><td>Tasa de retorno efectivo de becarios exterior</td><td>≥90%</td><td>Anual</td></tr>
+                <tr><td>% desembolso ejecutado vs asignado</td><td>≥85%</td><td>Trimestral</td></tr>
+                <tr><td>% informes de gestión completos</td><td>100%</td><td>Trimestral</td></tr>
+            </table>
+            <div><strong>Plan de choque:</strong> Cronograma mensual de desembolsos · Sistema unificado en la nube (postulación, asignación, retorno) · Unidad de retorno y vinculación estatal.</div>
+            <div class="resultados">✅ Desembolso ≥85% · sistema de información al día · retorno ≥90% · inserción laboral ≥80%.</div>
+        </div>
+    </div>
+
+    <!-- ======================= 5. FUVIDIT ======================= -->
+    <div id="fuvidit" class="ente-card">
+        <div class="ente-header">
+            <span class="ente-titulo">🚆 5. FUVIDIT (I+D+i para el Transporte)</span>
+            <span class="ente-sub">Vinculado UNETRANS · Gran Misión Transporte</span>
+        </div>
+        <div class="ente-body">
+            <div><strong>Logros:</strong> Proyecto biométrico Tren Caracas-Cúa · ingeniería inversa péndolas · software mantenimiento IFE · simulador Yutong.</div>
+            <div class="nudo-critico">⚙️ <strong>Nudo crítico:</strong> Déficit de talento especializado (50/75 cargos) + alta rotación + dependencia de recursos propios. Limita escalar la sustitución de importaciones.</div>
+            <table>
+                <tr><th>Indicador</th><th>Meta</th><th>Actual</th></tr>
+                <tr><td>% cargos previstos ocupados</td><td>≥90%</td><td><span class="semafono rojo"></span> 66%</td></tr>
+                <tr><td>% trabajadores con contrato fijo >12 meses</td><td>≥80%</td><td><span class="semafono amarillo"></span> 50%</td></tr>
+                <tr><td>N° prototipos entregados/año</td><td>≥3</td><td><span class="semafono verde"></span> 2 en 2025</td></tr>
+                <tr><td>% ingresos por aportes propios</td><td>≥70%</td><td>volátil</td></tr>
+            </table>
+            <div><strong>Plan 12 meses:</strong> Reclutamiento para 75 trabajadores · conversión a fijos · incentivos no salariales · unidad de recaudación 0.5% transporte.</div>
+            <div class="resultados">✅ Dotación ≥90% · rotación &lt;15% · ≥3 prototipos · ≥2 componentes de sustitución en uso.</div>
+        </div>
+    </div>
+
+    <!-- ======================= 6. FAMES ======================= -->
+    <div id="fames" class="ente-card">
+        <div class="ente-header">
+            <span class="ente-titulo">🏥 6. FAMES (Asistencia médico hospitalaria a estudiantes)</span>
+            <span class="ente-sub">Ente descentralizado · MPPEU</span>
+        </div>
+        <div class="ente-body">
+            <div><strong>Logros:</strong> 33 kits obstétricos · 53 informes morbilidad · 16 casos especiales gestionados · 10 actividades promoción.</div>
+            <div class="nudo-critico">💊 <strong>Triple nudo crítico:</strong> Deudas laborales (prestaciones Bs 342.626) · obsolescencia TI (17 equipos dañados) · baja sistematización · 55% universidades no responden convocatorias.</div>
+            <table>
+                <tr><th>Indicador</th><th>Meta</th><th>Frecuencia</th></tr>
+                <tr><td>% deuda patronal y prestaciones cancelada</td><td>100%</td><td>Trimestral</td></tr>
+                <tr><td>% equipos cómputo operativos</td><td>≥85%</td><td>Trimestral</td></tr>
+                <tr><td>Tiempo respuesta casos especiales</td><td>≤15 días</td><td>Trimestral</td></tr>
+                <tr><td>% universidades reportan morbilidad con formato aceptable</td><td>≥70%</td><td>Trimestral</td></tr>
+            </table>
+            <div><strong>Plan de rescate:</strong> Gestión ONAPRE para saldar deudas · reactivar seguro médico · adquisición 20 PC + UPS · talleres a 50 universidades.</div>
+            <div class="resultados">✅ 100% deudas canceladas · rotación &lt;15% · 70% reportes oportunos · 100 comisiones de salud activas · sistema digital de casos.</div>
+        </div>
+    </div>
+
+    <!-- ======================= 7. Centro Internacional Miranda ======================= -->
+    <div id="cim" class="ente-card">
+        <div class="ente-header">
+            <span class="ente-titulo">📡 7. Centro Internacional Miranda (CIM)</span>
+            <span class="ente-sub">Difusión doctrina bolivariana e investigación</span>
+        </div>
+        <div class="ente-body">
+            <div><strong>Logros:</strong> 11 seminarios, 46 conferencias, 2.604 participantes, 53 columnas, blog con 293 colaboraciones, 46 transmisiones YouTube.</div>
+            <div class="nudo-critico">💻 <strong>Nudo crítico:</strong> 0% ejecución financiera en proyectos + déficit investigadores estables + obsolescencia tecnológica (sin servidores, Moodle).</div>
+            <table>
+                <tr><th>Indicador</th><th>Meta</th><th>Actual</th></tr>
+                <tr><td>N° columnas+colaboraciones/año</td><td>≥248</td><td>🟢 346 (2025)</td></tr>
+                <tr><td>Visualizaciones YouTube/año</td><td>≥50.000</td><td><span class="semafono amarillo"></span> 28.000</td></tr>
+                <tr><td>% desembolsos recibidos vs presupuestado</td><td>≥85%</td><td><span class="semafono rojo"></span> 0%</td></tr>
+                <tr><td>Servidor Moodle operativo</td><td>Sí</td><td><span class="semafono rojo"></span> No</td></tr>
+            </table>
+            <div><strong>Plan inmediato:</strong> Liberación Bs 21 millones (proyecto 2026) · adquisición servidor + Moodle · contratación investigadores estables · cesión de auditorio.</div>
+            <div class="resultados">✅ Fin del 0% · plataforma digital activa · 50k+ views · 60 eventos/año · planta investigadora regularizada.</div>
+        </div>
+    </div>
+
+    <!-- Resumen ejecutivo de indicadores integrados -->
+    <div class="ente-card" style="background: linear-gradient(115deg, #f1f5f9, #ffffff);">
+        <div class="ente-header" style="background: #e9f0f5;">
+            <span class="ente-titulo" style="font-size: 1.4rem;">📌 Resumen ejecutivo SISEC – visión integral</span>
+        </div>
+        <div class="ente-body">
+            <p><strong>✔️ Coordinación General:</strong> Flujo de información mensual/trimestral · Power BI quincenal · reuniones estratégicas con Ministra y Viceministros.</p>
+            <p><strong>📐 Metodología:</strong> Fase piloto + ciclos trimestrales con encuestas, visitas sorpresivas y actualización de tablero de control. Semáforo dinámico por cada ente.</p>
+            <p><strong>🎯 Resultados transversales esperados en 12 meses:</strong> Mejora en plataforma TI, estabilidad del talento humano, ejecución financiera ≥85%, y consolidación de sistemas de información para la toma de decisiones en el subsistema de educación universitaria venezolano.</p>
+            <hr>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: space-between;">
+                <div><span class="semafono verde"></span> Meta ≥90%</div>
+                <div><span class="semafono amarillo"></span> Meta 70–89%</div>
+                <div><span class="semafono rojo"></span> Meta &lt;70% (crítico)</div>
+                <div><strong>MPPEU – 2026</strong></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        Sistema Integral de Seguimiento, Evaluación y Control (SISEC) · Información levantada de Memorias 2025 MPPEU · Metodología de monitoreo con enfoque de nudos críticos y planes de mejora por ente adscrito.
+    </div>
+</div>
+</body>
+</html>
